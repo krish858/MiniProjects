@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 
-function CreateTodo() {
+function CreateTodo(prop) {
   const [title,setTitle] = useState('');
   const [description,setDescription] = useState('');
 
@@ -42,7 +42,7 @@ function CreateTodo() {
       onChange={(e)=>setDescription(e.target.value)}
       />
       <br />
-      <button className='bg-black text-slate-400 font-semibold rounded-xl p-2' type='submit'>Create Todo</button>
+      <button className='bg-black text-slate-400 font-semibold rounded-xl p-2 hover:text-white' type='submit'>Create Todo</button>
       </form>
     </div>
   )
