@@ -48,7 +48,8 @@ app.post("/api/shorternurl",async function(req,res){
             hashedurl: hashedurl,
         });
         res.json({
-            msg: "Url shortened"
+            msg: "Url shortened",
+            hashedurl: hashedurl,
         });
     }
 
