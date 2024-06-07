@@ -1,6 +1,8 @@
+require('dotenv').config();
 const mongoose = require("mongoose");
+const dbUrl = process.env.DB_URL;
 
-mongoose.connect("your monogdb connection string")
+mongoose.connect(dbUrl);
 
 const Urlschema = mongoose.Schema({
     url: String,
