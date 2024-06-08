@@ -37,7 +37,7 @@ app.post("/api/shorternurl",async function(req,res){
     const response = req.body;
     const validate = urlvalidation.safeParse(response);
     if(!validate.success){
-        res.status(411).json({
+        res.json({
             msg: "Enter Valid Url",
         })
     }else{
