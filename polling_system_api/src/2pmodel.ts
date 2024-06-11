@@ -1,17 +1,19 @@
-import mongoose, {Document,Schema} from "mongoose";
-import { string } from "zod";
+import mongoose, { Document, Schema } from "mongoose";
 
-interface twopmodelinterface extends Document{
-    Title: string,
-    option1: string,
-    option2: string,
+interface TwopModelInterface extends Document {
+    Title: string;
+    option1: string;
+    option2: string;
+    option1points: number;
+    option2points: number;
 }
 
-const twopschema:Schema = new Schema({
-    name: {type:string, required:true },
-    option1 : {type:string, required:true },
-    option2 : {type:string, required:true },
-})
- 
+const twopSchema: Schema = new Schema({
+    Title: { type: String, required: true },
+    option1: { type: String, required: true },
+    option2: { type: String, required: true },
+    option1points: {type: Number, default: 0},
+    option2points: {type: Number, default: 0},
+});
 
-export default mongoose.model<twopmodelinterface>("twopmodel",twopschema)
+export default mongoose.model<TwopModelInterface>("twopmodel", twopSchema);
