@@ -2,3 +2,4 @@
 Link_Shortner/backend/.env
 Ai-Chatapp/backend/.env
 Ai-Chatapp/backend/node_modules/
+polling_system_api/node_modules/.bin/mime
