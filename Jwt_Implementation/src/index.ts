@@ -5,8 +5,7 @@ import User from "./model";
 import dbconnect from "./dbconnect";
 import signinzod from "./Signintypes";
 import signupzod from "./Signuptypes";
-import zod, { z } from "zod";
-import bcrypt from "bcrypt"
+import protectedroutes from "./protectedroutes";
 import dotenv from 'dotenv';
 dotenv.config()
 
@@ -20,14 +19,25 @@ app.use(express.json());
 
 dbconnect()
 
-app.get("/",(req:Request,res:Response)=>{
-    res.json({
-        msg: "welcome user",
-    })
-})
+app.use("/api/v1/signedin",protectedroutes)
+
+async function userexsist(username:String){
+    const user = await User.findOne({username : username});
+    if(!user){
+        return false;
+    }else{
+        return true;
+    }
+}
 
 app.post("/api/v1/signup",async(req:Request,res:Response)=>{
     const body = await req.body;
+    const createacc:boolean = await userexsist(body.username)
+    if(createacc){
+        return res.json({
+            msg: "user already exsists, Signin"
+        })
+    }
     const validate = signupzod.safeParse(body);
     try{
         if(!validate.success){
@@ -65,25 +75,23 @@ app.post("/api/v1/signin",async(req:Request,res:Response)=>{
         }else{
             const user = await User.findOne({ username: body.username });
 
-        if (!user) {
-            return res.json({
-                msg: "Invalid username or password",
-            });
-        }
-
-        const isMatch = await bcrypt.compare(body.password, user.password);
-
-        if (!isMatch) {
-            return res.json({
-                msg: "Invalid username or password",
-            });
-        }
-
-        const token = jsonwebtoken.sign({ username: user.username }, jwtsecret);
-        res.json({
-            msg: "user signed in",
-            jwt: token
-        });
+            if (!user) {
+                return res.json({
+                    msg: "Invalid username",
+                });
+            }
+            
+            if(body.password == user.password){
+                const token = jsonwebtoken.sign({ username: user.username }, jwtsecret);
+                res.json({
+                    msg: "user signed in",
+                    jwt: token
+                });
+            }else{
+                return res.json({
+                    msg: "Invalid password",
+                });
+            }
         }
     }catch(e){
         res.json({
