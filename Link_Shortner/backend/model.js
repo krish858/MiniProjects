@@ -2,7 +2,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const dbUrl = process.env.DB_URL;
 
-// mongoose.connect(dbUrl);
+mongoose.connect(dbUrl);
 
 const Urlschema = mongoose.Schema({
   url: String,
